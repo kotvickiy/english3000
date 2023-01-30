@@ -4,7 +4,7 @@ from keyboards import kb_client
 
 
 async def command_start(message: types.Message):
-    await bot.send_message(message.from_user.id, 'start', reply_markup=kb_client)
+    await bot.send_message(message.from_user.id, 's t a r t', reply_markup=kb_client)
     await message.delete()
 
 
