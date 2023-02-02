@@ -1,2 +1,2 @@
-from handlers import admin, client, other
+from handlers import fsm
 
