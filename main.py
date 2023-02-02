@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from aiogram.utils import executor
 from create_bot import dp
 from handlers import fsm
