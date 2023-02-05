@@ -48,10 +48,17 @@ async def choice(message: types.Message):
 
 
 async def one_fun(message: types.Message):
-    global VAR
+    global VAR, BAD, N, CSL
     if VAR < 10:
-        if message.text.replace('Ё', 'е').replace('ё', 'е').lower() not in CSL[VAR][2].replace('Ё', 'е').replace('ё', 'е').split(';'):
-            global BAD
+        if message.text.isdigit():
+            print('digit')
+            N = int(message.text)
+            CSL = crop_shuffle_list(N)
+            BAD = []
+            VAR = 0
+            FSM.num
+        elif message.text[0].isalpha() and message.text.replace('Ё', 'е').replace('ё', 'е').lower() not in CSL[VAR][2].replace('Ё', 'е').replace('ё', 'е').split(';'):
+            print('tut')
             BAD.append(f'{CSL[VAR][0]} => {CSL[VAR][2].replace(";", ",")}')
             VAR += 1
         else:
