@@ -31,8 +31,7 @@ async def start_message(message: types.Message):
 async def choice(message: types.Message):
     global BAD, VAR, N, CSL
     try:
-        if not (1 <= int(message.text) <= 2990) and message.text[0].isdigit():
-            print('ok')
+        if not (1 <= int(message.text) <= 2990):
             await bot.send_message(message.from_user.id, text=st)
         else:
             N = int(message.text)
@@ -75,5 +74,5 @@ async def one_fun(message: types.Message):
 def register_handlers(dp: Dispatcher):
     dp.register_message_handler(start_message, commands=['start'], state='*')
     dp.register_message_handler(start_message, Text(equals='/start', ignore_case=True), state='*')
-    dp.register_message_handler(choice, state='*')
+    dp.register_message_handler(choice, state=FSM.start_fsm)
     dp.register_message_handler(one_fun, state=FSM.num)
