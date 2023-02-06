@@ -31,10 +31,10 @@ async def start_message(message: types.Message):
 async def choice(message: types.Message):
     global BAD, VAR, N, CSL
     try:
-        if not (1 <= int(message.text) <= 2990):
+        if not (1 <= int(message.text.split(' ')[0]) <= 2990):
             await bot.send_message(message.from_user.id, text=st)
         else:
-            N = int(message.text)
+            N = message.text
             CSL = crop_shuffle_list(N)
             await FSM.next()
             await bot.send_message(message.from_user.id, text=f'{CSL[0][0]} {CSL[0][1]}')
@@ -49,7 +49,7 @@ async def choice(message: types.Message):
 
 async def one_fun(message: types.Message):
     global VAR, BAD, N, CSL
-    if VAR < 10:
+    if VAR < len(CSL):
         if message.text.isdigit():
             N = int(message.text)
             CSL = crop_shuffle_list(N)
@@ -61,7 +61,7 @@ async def one_fun(message: types.Message):
             VAR += 1
         else:
             VAR += 1
-        if VAR != 10:
+        if VAR != len(CSL):
             FSM.num
             await bot.send_message(message.from_user.id, text=f"{CSL[VAR][0]} {CSL[VAR][1]}")
         else:

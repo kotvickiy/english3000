@@ -9,11 +9,17 @@ def lst_word():
     return res
 
 
-def crop_shuffle_list(x):
-    res = lst_word()[x - 1:x + 9]
+def crop_shuffle_list(n):
+    if len(str(n).split(' ')) == 1:
+        x = int(n)
+        res = lst_word()[x - 1:x + 9]
+    elif len(str(n).split(' ')) == 2:
+        x = int(str(n).split(' ')[0])
+        y = int(str(n).split(' ')[1])
+        res = lst_word()[x - 1:x - 1 + y]
     shuffle(res)
     return res
 
 
 def start_text():
-    return '↷Введите число от 1 до 2990'
+    return '↷↷Введите число от 1 до 2990'
