@@ -57,7 +57,7 @@ async def one_fun(message: types.Message):
             VAR = 0
             FSM.num
         elif message.text[0].isalpha() and message.text.replace('Ё', 'е').replace('ё', 'е').lower() not in CSL[VAR][2].replace('Ё', 'е').replace('ё', 'е').split(';'):
-            BAD.append(f'{CSL[VAR][0]} => {CSL[VAR][2].replace(";", ",")}')
+            BAD.append(f'{CSL[VAR][0]} => {CSL[VAR][2].replace(";", ",")}  != {message.text}')
             VAR += 1
         else:
             VAR += 1
