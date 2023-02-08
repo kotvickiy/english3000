@@ -24,3 +24,7 @@ def crop_shuffle_list(n):
 def start_text():
     return '↷↷Введите число от 1 до 2990'
 
+def error_list(lst):
+    for i in lst:
+        with open('err_words.csv', 'a', encoding='utf-8', newline='') as file:
+            file.write(f'{i}\n')
