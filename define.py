@@ -23,3 +23,4 @@ def crop_shuffle_list(n):
 
 def start_text():
     return '↷↷Введите число от 1 до 2990'
+

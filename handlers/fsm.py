@@ -50,8 +50,8 @@ async def choice(message: types.Message):
 async def one_fun(message: types.Message):
     global VAR, BAD, N, CSL
     if VAR < len(CSL):
-        if message.text.isdigit():
-            N = int(message.text)
+        if message.text[0].isdigit():
+            N = message.text
             CSL = crop_shuffle_list(N)
             BAD = []
             VAR = 0
