@@ -26,7 +26,7 @@ def start_text():
 
 
 def verify_word(user_word, word):
-    return user_word[0] == word[0]
+    return user_word[0].lower() == word[0].lower()
 
 def error_list(lst):
     # for i in lst:
