@@ -16,6 +16,7 @@ CSL = 0
 BAD = []
 VAR = 0
 ERR = []
+ATTEMPT = 0
 st = start_text()
 
 
@@ -51,7 +52,7 @@ async def choice(message: types.Message):
 
 
 async def one_fun(message: types.Message):
-    global VAR, BAD, N, CSL, ERR
+    global VAR, BAD, N, CSL, ERR, ATTEMPT
     if VAR < len(CSL):
         if message.text[0].isdigit():
             N = message.text
@@ -61,23 +62,30 @@ async def one_fun(message: types.Message):
             ERR = []
             FSM.num
         elif message.text[0].isalpha() and message.text.replace('Ё', 'е').replace('ё', 'е').lower() not in CSL[VAR][2].replace('Ё', 'е').replace('ё', 'е').split(';'):
-            BAD.append(f'{CSL[VAR][0]} => {CSL[VAR][2].replace(";", ",")}  != {message.text}')
-            ERR.append(str(CSL[VAR]).replace('[', '').replace(']', '').replace('\'', '').replace(' ', ''))
-            VAR += 1
+            if ATTEMPT == 0:
+                await bot.send_message(message.from_user.id, text='👇попытайся еще раз👇')
+                ATTEMPT += 1
+            elif ATTEMPT == 1:
+                BAD.append(f'{CSL[VAR][0]} => {CSL[VAR][2].replace(";", ",")}  != {message.text}')
+                ERR.append(str(CSL[VAR]).replace('[', '').replace(']', '').replace('\'', '').replace(' ', ''))
+                VAR += 1
+                ATTEMPT = 0
+                await bot.send_message(message.from_user.id, text=f'кол-во ошибок: {len(BAD)}')
         else:
             VAR += 1
+            ATTEMPT = 0
         if VAR != len(CSL):
             FSM.num
             await bot.send_message(message.from_user.id, text=f"{len(CSL) - VAR}: {CSL[VAR][0]} {CSL[VAR][1]}")
         else:
             if BAD:
                 error_list(ERR)
-                await bot.send_message(message.from_user.id, text=f'W R O N G _ A N S W E R S ({N}):' + '\n' + '_' * 27 + '\n' + "\n".join(str(x) for x in BAD) + '\n' + '_' * 27)
+                await bot.send_message(message.from_user.id, text=f'⛔W R O N G 🚨 A N S W E R S⛔ ({N}):' + '\n' + '_' * 27 + '\n' + "\n".join(str(x) for x in BAD) + '\n' + '_' * 27)
                 BAD = []
                 ERR = []
                 VAR = 0
             else:
-                await bot.send_message(message.from_user.id, text=f'👍Красавчик({N})👍'.upper())
+                await bot.send_message(message.from_user.id, text=f'✅Красавчик({N})✅'.upper())
                 VAR = 0
             await FSM.start_fsm.set()
             await bot.send_message(message.from_user.id, text=st)
