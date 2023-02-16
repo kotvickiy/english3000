@@ -3,7 +3,7 @@ from create_bot import dp, bot
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.dispatcher.filters import Text
 
-from define import crop_shuffle_list, start_text, error_list
+from define import crop_shuffle_list, start_text, error_list, verify_word
 
 
 class FSM(StatesGroup):
@@ -62,10 +62,10 @@ async def one_fun(message: types.Message):
             ERR = []
             FSM.num
         elif message.text[0].isalpha() and message.text.replace('Ё', 'е').replace('ё', 'е').lower() not in CSL[VAR][2].replace('Ё', 'е').replace('ё', 'е').split(';'):
-            if ATTEMPT == 0:
+            if ATTEMPT == 0 and verify_word(str(message.text), str(CSL[VAR][2].replace('Ё', 'е').replace('ё', 'е').split(';')[0])):
                 await bot.send_message(message.from_user.id, text='👇попытайся еще раз👇')
                 ATTEMPT += 1
-            elif ATTEMPT == 1:
+            else:
                 BAD.append(f'{CSL[VAR][0]} => {CSL[VAR][2].replace(";", ",")}  != {message.text}')
                 ERR.append(str(CSL[VAR]).replace('[', '').replace(']', '').replace('\'', '').replace(' ', ''))
                 VAR += 1
@@ -80,7 +80,7 @@ async def one_fun(message: types.Message):
         else:
             if BAD:
                 error_list(ERR)
-                await bot.send_message(message.from_user.id, text=f'⛔W R O N G 🚨 A N S W E R S⛔ ({N}):' + '\n' + '_' * 27 + '\n' + "\n".join(str(x) for x in BAD) + '\n' + '_' * 27)
+                await bot.send_message(message.from_user.id, text=f'⛔W R O N G🚨A N S W E R S⛔ ({N}):' + '\n' + '_' * 27 + '\n' + "\n".join(str(x) for x in BAD) + '\n' + '_' * 27)
                 BAD = []
                 ERR = []
                 VAR = 0
